@@ -11,7 +11,7 @@ namespace ConsoleApp1;
 class AccountBank
 {
     //using a list so we can append. Treat it like an array
-    private List<Account> accArray;
+    private Dictionary<string, Account> accDict;
     private static int accCount;
     private readonly int MAX_ACCOUNTS;
 
@@ -20,11 +20,9 @@ class AccountBank
     ///</summary>
     /// Params: number of accounts user wants to create passed in by user
     ///<returns>No return</returns>
-    public AccountBank(int numAccounts)
+    public AccountBank()
     {
-        //An array of Account
-        accArray = new List<Account>();
-        MAX_ACCOUNTS = numAccounts;
+        accDict = new Dictionary<string, Account>();
     }
 
     ///<summary>
@@ -34,16 +32,13 @@ class AccountBank
     ///<returns>true or false</returns>
     public bool StoreAccount(Account acc)
     {
-                            //if account array is full, return false
-        if (acc == null || this.accArray.Count >= MAX_ACCOUNTS)
+        if (acc != null)
         {
-            return false;
-        }
-        else
-        {
-            accArray.Add(acc);
+            accDict[acc.GetAccNum()] = acc;
             return true;
         }
+        //else
+        return false;
     }
 
     ///<summary>
@@ -53,14 +48,11 @@ class AccountBank
     ///<returns>Account object found</returns>
     public Account FindAccount(string accNum)
     {
-        foreach (var account in accArray)
+        if (accDict.ContainsKey(accNum))
         {
-            if(account.GetAccNum() == accNum)
-            {
-                return account;
-            }
+            return accDict[accNum];
         }
-        return null;
+        return null;//might need to change. Maybe do a try exception
     }
 
     ///<summary>
@@ -70,8 +62,8 @@ class AccountBank
     /// and will allow the user to print all the accounts and
     /// their information.
     ///<returns>No return</returns>
-    public Account PrintAccounts(int index)
-    {
-        return this.accArray[index];
-    }
+    // public Account PrintAccounts(int index)
+    // {
+    //     // return this.accArray[index];
+    // }
 }

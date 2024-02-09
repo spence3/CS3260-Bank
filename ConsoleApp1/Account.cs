@@ -148,15 +148,16 @@ abstract class Account:IAccount
      ///</summary>
      /// params: user input amount. If amount is less than 0 return false else return true
      ///<returns>True or false</returns>
-    public bool PayInFunds(decimal amount)
+    public virtual bool PayInFunds(decimal amount)
     {
+        
         if (amount < 0)
         {
             return false;
         }
         else
         {
-            this.balance += amount;//incrament balance by amount passed in
+            this.balance += amount;//increment balance by amount passed in
             return true;
         }
     }
@@ -166,7 +167,7 @@ abstract class Account:IAccount
      ///</summary>
      /// params: User input amounty
      ///<returns>return true or false based on correct user input</returns>
-    public bool WithdrawFunds(decimal amount)
+    public virtual bool WithdrawFunds(decimal amount)
     {
         this.balance -= amount;//subtract amount first
         //if amount subtracted makes account balance neg-->false

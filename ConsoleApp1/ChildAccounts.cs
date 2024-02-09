@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace ConsoleApp1;
 
 
@@ -10,6 +12,10 @@ namespace ConsoleApp1;
 ///</summary>
 class SavingsACcount: Account
 {
+
+    public readonly decimal INTEREST_RATE = 0.01m;
+    
+    
     ///<summary>
     /// Purpose: Construct SavingsAccount class variables
     ///</summary>
@@ -33,8 +39,24 @@ class SavingsACcount: Account
     {
         return this.minimumBalance;
     }
+    
+    public override bool PayInFunds(decimal amount)
+    {
+        if (amount < 0)
+        {
+            return false;
+        }
+        else
+        {
+            this.balance += amount;//adding amount to balance first
+            decimal interest = this.balance * INTEREST_RATE;//getting interest rate of amount entered
+            this.balance += interest;
+            return true;
+        }
+    }
 
 }
+
 
 ///<summary>
 /// This is the Checking clas which is a child class
@@ -55,7 +77,7 @@ class CheckingAccount : Account
         //Set account number and account type (Savings ,Checking CD)
         accountNumber = nextAccountNumber.ToString() + 'C';
         serviceFee = 5;
-        minimumBalance = 10;
+        minimumBalance = 100;
         nextAccountNumber++;
     }
 
@@ -67,6 +89,33 @@ class CheckingAccount : Account
     public int GetMinimum()
     {
         return this.minimumBalance;
+    }
+    
+    public override bool WithdrawFunds(decimal amount)
+    {
+        const int CHARGE_FEE = 5;
+        this.balance -= amount;
+        //Do not allow a withdrawal if the additional service fee added to the withdrawal amount would cause the balance to drop below $0.
+        if (this.balance - CHARGE_FEE < 0)
+        {
+            this.balance += amount; //put money back.
+            return false;
+        }
+        
+        //balance below minimum --> add charge fee
+        else if (this.balance < minimumBalance && this.balance - CHARGE_FEE >= 0)
+        {
+            this.balance -= CHARGE_FEE;
+            return true;
+        }
+        //amount to be withdrawn negative.. put money back in account
+        else if (this.balance < 0)
+        {
+            this.balance += amount;
+            return false;
+        }
+
+        return true;
     }
 }
 

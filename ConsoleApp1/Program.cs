@@ -37,40 +37,87 @@ class Program
     static void Main()
     {
         
-         // creating account(s)
-         Console.WriteLine("How many accounts?");
-         string numAccounts = Console.ReadLine();
-         
-         while(!int.TryParse(numAccounts, out int result))
-         {
-             Console.WriteLine("Please enter a number");
-             numAccounts = Console.ReadLine();
-         }
-         
-         AccountBank accounts = new AccountBank(int.Parse(numAccounts));
-
-         for (int i = 0; i < int.Parse(numAccounts); i++)
-         {
-             Account newAcc = CreateAccount();
-             accounts.StoreAccount(newAcc);
-         }
-
-         //printing account(s)
-         for (int i = 0; i < int.Parse(numAccounts); i++)
-         {
-             Console.WriteLine($"\n{accounts.PrintAccounts(i)}\n");
-         }
+        Console.WriteLine("Lets create some accounts.");
+        AccountBank accounts = new AccountBank();
+        CreateMultipleAccounts(accounts);
+    }
+    
+    static void CreateMultipleAccounts(AccountBank accounts)
+    {
+        while (true)
+        {
+            Console.WriteLine("Enter q to quit or any other button to create an account");
+            string usrInput = Console.ReadLine();
+            //allow user to quit before making an account
+            if (usrInput.ToLower() == "q")
+            {
+                break;
+            }
+            //else
+            Account newAccount = CreateAccount();
+            accounts.StoreAccount(newAccount);
+        }
+        
+        Console.WriteLine("If you would like to find an account press 'y'. If you want to quit press any other button.");
+        string findAccount = Console.ReadLine();
+        if (findAccount == "y")
+        {
+            AccountSelection(accounts);
+        }
     }
 
+    static void AccountSelection(AccountBank accounts)
+    {
+        Console.WriteLine("Lets find some accounts");
+        Console.WriteLine("Enter q to quit or an account number to find account.");
+        while (true)
+        {
+            string accNum = Console.ReadLine();
+            if (accNum == "q")
+            {
+                break;
+            }
+            
+            Account selectedAcc = accounts.FindAccount(accNum);
+            //non-existing account
+            if (selectedAcc == null)
+            {
+                Console.WriteLine("Not a correct input. Try another account number or q to quit");
+                continue;
+            }
+            //found account
+            else
+            {
+                AccountProcessing(selectedAcc);
+            }
+            Console.WriteLine("Enter another account number to find another account or q to quit");
+        }
+        //go back to creating multiple accounts
+        Console.WriteLine("If you would like to create another account press 'y'. If you want to quit press any other button.");
+        string usrInput = Console.ReadLine();
+        if (usrInput == "y")
+        {
+            CreateMultipleAccounts(accounts);
+        }
+        
+    }
 
     ///<summary>
     /// Purpose: Deposit or Withdraw from account.
     ///</summary>
     /// Parmams: account object
     ///<returns>Write to console amount withdrawn or deposited, update bank balance</returns>
-    static void DepositWithdraw(Account acc)
+    static void AccountProcessing(Account acc)
     {
-        Console.WriteLine("Input w for withdraw or d for deposit. Input e or return for exit");
+        if (acc is CDAccount)
+        {
+            Console.WriteLine("CD accounts can only withdraw. Enter w for withdraw or e to exit");
+        }
+        else
+        {
+            Console.WriteLine("Input w for withdraw or d for deposit. Enter e to exit");
+        }
+
         string depositOrWithdraw = Console.ReadLine();
 
         while (depositOrWithdraw.ToLower() != "e")
@@ -87,10 +134,12 @@ class Program
                     Console.WriteLine("Please enter a number");
                     continue;
                 }
-
+                
+                
                 if (!acc.WithdrawFunds(int.Parse(withdrawAmmount)))
                 {//exceeds balance
-                    Console.WriteLine($"${withdrawAmmount} will exceed $0.0 ");
+                    Console.WriteLine($"${withdrawAmmount} will exceed $0.0... Remember there is a service" +
+                                      $"fee of $5 if your account balance is below $100");
                 }
                 else//didn't exceed balance. Print new balanc
                 {
@@ -98,7 +147,8 @@ class Program
                 }
 
                 //deposit handling
-            }else if(depositOrWithdraw == "d")
+            }
+            else if(depositOrWithdraw == "d" && acc is not CDAccount)
             {
                 Console.WriteLine("How much would you like to deposit?");
                 string depositAmmount = Console.ReadLine();
@@ -122,7 +172,16 @@ class Program
             {//user input is incorrect
                 Console.WriteLine("Please input the correct information");
             }
-            Console.WriteLine("Enter w for withdraw or d for deposit. Enter e for exit");
+
+            if (acc is CDAccount)
+            {
+                Console.WriteLine("Enter w for withdraw or e to exit\"?");
+            }
+            else
+            {
+                Console.WriteLine("Enter w for withdraw or d for deposit. Enter e for exit");
+            }
+
             depositOrWithdraw = Console.ReadLine();
         }
     }
