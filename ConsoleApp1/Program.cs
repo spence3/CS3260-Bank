@@ -24,8 +24,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.JavaScript;
 using ConsoleApp1;
 
-//hi there
-
 
 ///<summary>
 /// This is the Program Class where Everything is tested
