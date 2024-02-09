@@ -1,24 +1,20 @@
 namespace ConsoleApp1;
-
-
 ///<summary>
 /// This is the AccountBank Class. It's in charge of storing
-/// multiple accounts in an array. If it max's out, the account
-/// will return false, else it adds an account. You are also
-/// able to find a specific account based on the account
-/// number provided by the user.
+/// multiple accounts in a dictionary. user has the
+/// ability to find a specific account based on the account
+/// number provided by the user using a dictionary
 ///</summary>
 class AccountBank
 {
-    //using a list so we can append. Treat it like an array
     private Dictionary<string, Account> accDict;
     private static int accCount;
     private readonly int MAX_ACCOUNTS;
 
     ///<summary>
-    /// Purpose: Construct AccountBank class variables
+    /// Purpose: Construct AccountBank dictionary
     ///</summary>
-    /// Params: number of accounts user wants to create passed in by user
+    /// Params: None
     ///<returns>No return</returns>
     public AccountBank()
     {
@@ -26,7 +22,7 @@ class AccountBank
     }
 
     ///<summary>
-    /// Purpose: Stores user accounts in an array
+    /// Purpose: Stores user accounts in a dictionary
     ///</summary>
     /// Params: Account object
     ///<returns>true or false</returns>
@@ -54,16 +50,4 @@ class AccountBank
         }
         return null;//might need to change. Maybe do a try exception
     }
-
-    ///<summary>
-    /// Purpose: Helper method to print account objects.
-    ///</summary>
-    /// Params: Index number. Number of accounts will incrrease
-    /// and will allow the user to print all the accounts and
-    /// their information.
-    ///<returns>No return</returns>
-    // public Account PrintAccounts(int index)
-    // {
-    //     // return this.accArray[index];
-    // }
 }

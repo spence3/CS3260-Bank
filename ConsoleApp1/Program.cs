@@ -5,13 +5,12 @@
 // Class: CS3260 Section X01
 // Project: Lab_04
 // Date: 2/2/24
-// Purpose: This lab is meant to allow the user to pick what kind of account they want
-//          based on input (c for Checking, s for Savings and d for Certificate of Deposit).
-//          The user must put in the minimum balance for each account (checking $10, savings $100
-//          CD $500). If there are multiple accounts we have a class that handles that called AccountBank
-//          Where however many accounts the user wants to store is in there. If the user wants to store 3
-//          accounts then 3 accounts and no more than 3 accounts will be stored within an array in AccountBank
-//          We are able to also look up accounts based on the account number and return that account.
+// Purpose: In this lab we adjusted the AccountBank so that it uses a map instead of an array.
+//          for storing accounts. I made it easy to transition from creating an account to looking
+//          up an account (the accounts start with 1000(C,S,D). When a user looks up an account it 
+//          goes straight into 'AccountProcessing Where the user is able to withdraw or deposit. 
+//          CD Account can only withdraw. Savings adds an interest rate on deposit and checking has a 
+//          withdraw fee when the account balance is below $100
 //
 // I declare that the following code was written by me or provided
 // by the instructor for this project. I understand that copying source
@@ -36,12 +35,16 @@ class Program
     ///</summary>
     static void Main()
     {
-        
         Console.WriteLine("Lets create some accounts.");
         AccountBank accounts = new AccountBank();
         CreateMultipleAccounts(accounts);
     }
     
+    ///<summary>
+    /// Purpose: Create However many Accounts the user wants to make.
+    ///</summary>
+    /// Parmams: AccountBank ojbect
+    ///<returns>No return</returns>
     static void CreateMultipleAccounts(AccountBank accounts)
     {
         while (true)
@@ -65,7 +68,12 @@ class Program
             AccountSelection(accounts);
         }
     }
-
+    
+    ///<summary>
+    /// Purpose: Find accounts based on correct user input for account number
+    ///</summary>
+    /// Parmams: AccountBank ojbect
+    ///<returns>No return</returns>
     static void AccountSelection(AccountBank accounts)
     {
         Console.WriteLine("Lets find some accounts");
@@ -269,7 +277,7 @@ class Program
     /// Purpose: To create a new account based on user input
     ///</summary>
     /// No Params
-    ///<returns.acc /Returns a new accounbt created</returns>
+    ///<returns>Returns a new account created</returns>
 
     static Account CreateAccount()
     {

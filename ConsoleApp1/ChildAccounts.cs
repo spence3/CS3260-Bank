@@ -1,5 +1,4 @@
 using System.Text;
-
 namespace ConsoleApp1;
 
 
@@ -40,6 +39,11 @@ class SavingsACcount: Account
         return this.minimumBalance;
     }
     
+    ///<summary>
+    /// Purpose: Deposit Savings and include interest rate
+    ///</summary>
+    /// Params: amount
+    ///<returns>true or false</returns>
     public override bool PayInFunds(decimal amount)
     {
         if (amount < 0)
@@ -91,6 +95,11 @@ class CheckingAccount : Account
         return this.minimumBalance;
     }
     
+    ///<summary>
+    /// Purpose: Withdraw custom amount for Checking. Includes CHARGE_FEE
+    ///</summary>
+    /// Params: amount
+    ///<returns>true or false</returns>
     public override bool WithdrawFunds(decimal amount)
     {
         const int CHARGE_FEE = 5;
